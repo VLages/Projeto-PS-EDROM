@@ -85,7 +85,7 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
         "baixo_direita": {"direcao": (1, 1), "peso": 2}
     }
 
-    #calculando movimento
+    #dlecarando variaveis
     x_obj, y_obj = pos_objetivo
     pos_atual = pos_inicial
     x_atual, y_atual = pos_atual
@@ -94,52 +94,68 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
     valor_dt = p_valor_da + valor_do
     p_pos = [pos_atual]
     lista_aberta = []
-    lista_fechada = []
+    lista_pos_add=set()
     qtd=0
 
     #verificando se o robo chegou no objetivo
-    while valor_do > 0 and qtd <= 10:
+    while valor_do > 0:
         qtd += 1
-        print(f"todas posição andadas: {p_pos}")
-        print(f"posição atual: {pos_atual}")
-        print(f"valor andado: {p_valor_da}\n")
+        print(f"\n---------------------------------------------------------------------------------")
+        print(f"Todas posições adicionadas na lista aberta: \n{lista_pos_add}")
+        print(f"Todas posição andadas: {p_pos}")
+        print(f"Posição atual: {pos_atual}")
+        print(f"Valor andado: {p_valor_da}")
+        print(f"---------------------------------------------------------------------------------\n")
         x_atual, y_atual = pos_atual
 
         for nome, info in movimentos.items():
             dx, dy = info["direcao"]
             peso = info["peso"]
             novo_x, novo_y = x_atual + dx, y_atual + dy
+            pos_nova=(novo_x,novo_y)
 
-            #verifica se está dentro dos limites
-            if 0 <= novo_x < largura_grid and 0 <= novo_y < altura_grid:
-                pos_nova=(novo_x,novo_y)
-                print(f"Movimento: {nome} | Direção: ({dx}, {dy}) | Peso: {peso}")
-                print(f"Nova posição: {pos_nova}")
+            #verifica se está fora dos limites
+            if 0 > novo_x >= largura_grid and 0 > novo_y >= altura_grid:
+                print(f"Essa posição está fora dos limites ({pos_nova})\n")
+                continue
 
-                #calculando valor de cada movimento
-                valor_do = abs(x_obj-novo_x) + abs(y_obj-novo_y)
-                valor_da = peso + p_valor_da
-                valor_dt = valor_da + valor_do
-                print(f"Valor D: {valor_dt}")
+            #verifica se tal tupla já passou pela lista aberta
+            if pos_nova in lista_pos_add:
+                print(f"Essa posição já esta na lista aberta ({pos_nova})\n")
+                continue
 
-                #armazenamento da lista aberta
-                f_pos = p_pos + [pos_nova]
-                novo_item=(valor_dt, valor_da, valor_do, pos_nova, f_pos)
-                print(f"Nova item: {novo_item}\n")
-                heapq.heappush(lista_aberta, novo_item)
-            #passando valores para lista fechada
-            lista_fechada += p_pos
+            #verifica se tal tupla é um obstaculo
+            if pos_nova in obstaculos:
+                print(f"Essa posição é um obstaculo ({pos_nova})\n")
+                continue
+                
+            print(f"Movimento: {nome} / Direção: ({dx}, {dy}) / Peso: {peso}")
+            print(f"Nova posição: {pos_nova}")
+
+            #calculando valor de cada movimento
+            valor_do = abs(x_obj-novo_x) + abs(y_obj-novo_y)
+            valor_da = peso + p_valor_da
+            valor_dt = valor_da + valor_do
+            print(f"Valor da Distancia Total: {valor_dt}")
+
+            #armazenamento da lista aberta
+            f_pos = p_pos + [pos_nova]
+            novo_item=(valor_dt, valor_da, valor_do, pos_nova, f_pos)
+            print(f"Novo item: {novo_item}\n")
+            heapq.heappush(lista_aberta, novo_item) 
+            lista_pos_add.add(pos_nova)
+
+        #verifica se ainda há posições para serem analisadas
         if lista_aberta:
             valor_dt, p_valor_da, valor_do, pos_atual, p_pos = heapq.heappop(lista_aberta)
         else: 
             print("Não foi possivel encontrar um caminho")
             break
     
-    
-    print(f"todas posição andadas: {p_pos}")
-    print(f"posição atual: {pos_atual}")
-    print(f"valor andado: {p_valor_da}\n")
-            
-    caminho_exemplo = []
+    print(f"\n--------------------------Resultado final-------------------------------")
+    print(f"Todas posição andadas: {p_pos}")
+    print(f"Posição atual: {pos_atual}")
+    print(f"Valor andado: {p_valor_da}")
+    print(f"Quantidade de analises: {qtd}")
 
-    return caminho_exemplo
+    return p_pos
