@@ -1,8 +1,9 @@
-# NOME DO CANDIDATO: [O candidato deve preencher aqui]
-# CURSO DO CANDIDATO: [Curso]
-# AREAS DE INTERESSE: [Digite Aqui]
+# NOME DO CANDIDATO: Vitor Moraes Lages
+# CURSO DO CANDIDATO: Engenharia Mecanica
+# AREAS DE INTERESSE: Estrutura / Visão computacional
 
 # Você pode importar as bibliotecas que julgar necessárias.
+import heapq
 
 def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altura_grid, tem_bola=False):
     """
@@ -64,21 +65,81 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
     # Ele NÃO desvia de obstáculos e NÃO busca o objetivo.
     # Sua tarefa é substituir esta lógica simples pelo seu algoritmo A* completo.
 
-    print("Usando a função de exemplo: robô andando para frente.")
-    
-    caminho_exemplo = []
-    x_atual, y_atual = pos_inicial
+    print(f"pos_inicial: {pos_inicial}\n")
+    print(f"pos_objetivo: {pos_objetivo}\n")
+    print(f"obstaculos: {obstaculos}\n")
+    print(f"largura_grid: {largura_grid}\n")
+    print(f"altura_grid: {altura_grid}\n")
+    print(f"tem_bola: {tem_bola}\n")
 
-    # Gera um caminho de até 10 passos para a direita (considerado "frente" no campo)
-    for i in range(1, 11):
-        proximo_x = x_atual + i
+    #movimentos possiveis
+    movimentos = {
+        "cima": {"direcao": (0, -1), "peso": 1},
+        "baixo": {"direcao": (0, 1), "peso": 1},
+        "esquerda": {"direcao": (-1, 0), "peso": 1},
+        "direita": {"direcao": (1, 0), "peso": 1},
         
-        # Garante que o robô não tente andar para fora dos limites do campo
-        if proximo_x < largura_grid:
-            caminho_exemplo.append((proximo_x, y_atual))
-        else:
-            # Para o loop se o robô chegar na borda do campo
-            break
+        "cima_esquerda": {"direcao": (-1, -1), "peso": 2},
+        "cima_direita": {"direcao": (1, -1), "peso": 2},
+        "baixo_esquerda": {"direcao": (-1, 1), "peso": 2},
+        "baixo_direita": {"direcao": (1, 1), "peso": 2}
+    }
 
-    # Retorna o caminho
+    #calculando movimento
+    x_obj, y_obj = pos_objetivo
+    pos_atual = pos_inicial
+    x_atual, y_atual = pos_atual
+    valor_do = abs(x_obj-x_atual)+abs(y_obj-y_atual)
+    p_valor_da = 0
+    valor_dt = p_valor_da + valor_do
+    p_pos = [pos_atual]
+    lista_aberta = []
+    lista_fechada = []
+    qtd=0
+
+    #verificando se o robo chegou no objetivo
+    while valor_do > 0 and qtd <= 10:
+        qtd += 1
+        print(f"todas posição andadas: {p_pos}")
+        print(f"posição atual: {pos_atual}")
+        print(f"valor andado: {p_valor_da}\n")
+        x_atual, y_atual = pos_atual
+
+        for nome, info in movimentos.items():
+            dx, dy = info["direcao"]
+            peso = info["peso"]
+            novo_x, novo_y = x_atual + dx, y_atual + dy
+
+            #verifica se está dentro dos limites
+            if 0 <= novo_x < largura_grid and 0 <= novo_y < altura_grid:
+                pos_nova=(novo_x,novo_y)
+                print(f"Movimento: {nome} | Direção: ({dx}, {dy}) | Peso: {peso}")
+                print(f"Nova posição: {pos_nova}")
+
+                #calculando valor de cada movimento
+                valor_do = abs(x_obj-novo_x) + abs(y_obj-novo_y)
+                valor_da = peso + p_valor_da
+                valor_dt = valor_da + valor_do
+                print(f"Valor D: {valor_dt}")
+
+                #armazenamento da lista aberta
+                f_pos = p_pos + [pos_nova]
+                novo_item=(valor_dt, valor_da, valor_do, pos_nova, f_pos)
+                print(f"Nova item: {novo_item}\n")
+                heapq.heappush(lista_aberta, novo_item)
+            #passando valores para lista fechada
+            lista_fechada += p_pos
+        if lista_aberta:
+            valor_dt, p_valor_da, valor_do, pos_atual, p_pos = heapq.heappop(lista_aberta)
+        else: 
+            print("Não foi possivel encontrar um caminho")
+            break
+    
+    
+    print(f"todas posição andadas: {p_pos}")
+    print(f"posição atual: {pos_atual}")
+    print(f"valor andado: {p_valor_da}\n")
+            
+    caminho_exemplo = []
+
     return caminho_exemplo
