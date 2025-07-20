@@ -181,4 +181,4 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
     print(f"Valor andado: {p_valor_da}")
     print(f"Quantidade de analises: {qtd}")
 
-    return lista_pos_andadas
+    return lista_pos_andadas 

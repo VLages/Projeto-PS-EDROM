@@ -41,7 +41,7 @@ Este arquivo é o ambiente de simulação. Ele é responsável por:
 
 1.  **Instale as dependências:** Certifique-se de que você tem Python e a biblioteca Pygame instalados.
     ```bash
-    pip install pygame
+    pip install pygame 
     ```
 2.  **Execute o simulador:** Abra um terminal na pasta do projeto e execute o comando:
     ```bash

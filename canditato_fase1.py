@@ -93,7 +93,7 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
     valor_do = abs(x_obj-x_atual)+abs(y_obj-y_atual)
     p_valor_da = 0
     valor_dt = p_valor_da + valor_do
-    lista_pos_andadas = [pos_atual]
+    lista_pos_andadas = [pos_atual] 
     lista_aberta = []
     lista_pos_add=set()
     qtd=0

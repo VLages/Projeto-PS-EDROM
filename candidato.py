@@ -79,7 +79,7 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
         "esquerda": {"direcao": (-1, 0), "peso": {"N":3,"O":1,"S":3,"L":5,"NL":4,"NO":2,"SO":2,"SL":4}, "face": "O"},
         "direita": {"direcao": (1, 0), "peso": {"N":3,"O":5,"S":3,"L":1,"NL":2,"NO":4,"SO":4,"SL":2}, "face": "L"},
         
-        "cima_esquerda": {"direcao": (-1, -1), "peso": {"N":2,"O":2,"S":4,"L":4,"NL":3,"NO":1,"SO":3,"SL":5}, "face": "NO"},
+        "cima_esquerda": {"direcao": (-1, -1), "peso": {"N":2,"O":2,"S":4,"L":4,"NL":3,"NO":1,"SO":3,"SL":5}, "face": "NO"}, 
         "cima_direita": {"direcao": (1, -1), "peso": {"N":2,"O":4,"S":4,"L":2,"NL":1,"NO":3,"SO":5,"SL":3}, "face": "NL"},
         "baixo_esquerda": {"direcao": (-1, 1), "peso": {"N":4,"O":2,"S":2,"L":4,"NL":5,"NO":3,"SO":1,"SL":3}, "face": "SO"},
         "baixo_direita": {"direcao": (1, 1), "peso": {"N":4,"O":4,"S":2,"L":2,"NL":3,"NO":5,"SO":3,"SL":1}, "face": "SL"}

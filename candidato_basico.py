@@ -1,5 +1,5 @@
 # NOME DO CANDIDATO: Vitor Moraes Lages
-# CURSO DO CANDIDATO: Engenharia Mecanica
+# CURSO DO CANDIDATO: Engenharia Mecanica 
 # AREAS DE INTERESSE: Estrutura / Visão computacional
 
 # Você pode importar as bibliotecas que julgar necessárias.

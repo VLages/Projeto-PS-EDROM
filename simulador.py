@@ -152,7 +152,7 @@ def main():
                 pygame.time.wait(2000)
                 estado_jogo = resetar_cenario()
 
-        tela.fill(COR_FUNDO)
+        tela.fill(COR_FUNDO) 
         desenhar_grade(tela)
         
         if estado_jogo["caminho_atual"]:
