@@ -85,6 +85,18 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
         "baixo_direita": {"direcao": (1, 1), "peso": {"N":4,"O":4,"S":2,"L":2,"NL":3,"NO":5,"SO":3,"SL":1}, "face": "SL"}
     }
 
+    #criando zonas de risco
+    zona_de_risco = {}
+    for x_pos, y_pos in obstaculos:
+        zona_de_risco[(x_pos, y_pos - 1)] = 10  
+        zona_de_risco[(x_pos, y_pos + 1)] = 10  
+        zona_de_risco[(x_pos - 1, y_pos)] = 10  
+        zona_de_risco[(x_pos + 1, y_pos)] = 10
+        zona_de_risco[(x_pos - 1, y_pos - 1)] = 5
+        zona_de_risco[(x_pos + 1, y_pos - 1)] = 5 
+        zona_de_risco[(x_pos - 1, y_pos + 1)] = 5  
+        zona_de_risco[(x_pos + 1, y_pos + 1)] = 5  
+
     #declarando variaveis
     face_robo = "L"
     x_obj, y_obj = pos_objetivo
@@ -111,7 +123,10 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
         #declarar as possibilidades de movimento
         for nome, info in movimentos.items():
             dx, dy = info["direcao"]
-            peso = info["peso"][face_robo] * 3 if tem_bola else info["peso"][face_robo]
+            if tem_bola:
+                peso = info["peso"][face_robo] * 10  
+            else:
+                peso = info["peso"][face_robo]
             nova_face_robo = info["face"]
             novo_x, novo_y = x_atual + dx, y_atual + dy
             pos_nova=(novo_x,novo_y)
@@ -132,6 +147,10 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
                 print(f"Essa posição é um obstaculo ({pos_nova})")
                 print("---------------------------------------------------------------------------------\n")
                 continue
+
+            #acresentar peso à zona de risco
+            if pos_nova in zona_de_risco:
+                peso += zona_de_risco[pos_nova]
                 
             print(f"Movimento: {nome} / Direção: ({dx}, {dy}) / Peso: {peso}")
             print(f"Nova posição: {pos_nova}")
