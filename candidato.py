@@ -74,25 +74,26 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
 
     #movimentos possiveis
     movimentos = {
-        "cima": {"direcao": (0, -1), "peso": 1},
-        "baixo": {"direcao": (0, 1), "peso": 1},
-        "esquerda": {"direcao": (-1, 0), "peso": 1},
-        "direita": {"direcao": (1, 0), "peso": 1},
+        "cima": {"direcao": (0, -1), "peso": {"N":1,"O":3,"S":5,"L":3,"NL":2,"NO":2,"SO":4,"SL":4}, "face": "N"},
+        "baixo": {"direcao": (0, 1), "peso": {"N":5,"O":3,"S":1,"L":3,"NL":4,"NO":4,"SO":2,"SL":2 }, "face": "S"},
+        "esquerda": {"direcao": (-1, 0), "peso": {"N":3,"O":1,"S":3,"L":5,"NL":4,"NO":2,"SO":2,"SL":4}, "face": "O"},
+        "direita": {"direcao": (1, 0), "peso": {"N":3,"O":5,"S":3,"L":1,"NL":2,"NO":4,"SO":4,"SL":2}, "face": "L"},
         
-        "cima_esquerda": {"direcao": (-1, -1), "peso": 2},
-        "cima_direita": {"direcao": (1, -1), "peso": 2},
-        "baixo_esquerda": {"direcao": (-1, 1), "peso": 2},
-        "baixo_direita": {"direcao": (1, 1), "peso": 2}
+        "cima_esquerda": {"direcao": (-1, -1), "peso": {"N":2,"O":2,"S":4,"L":4,"NL":3,"NO":1,"SO":3,"SL":5}, "face": "NO"},
+        "cima_direita": {"direcao": (1, -1), "peso": {"N":2,"O":4,"S":4,"L":2,"NL":1,"NO":3,"SO":5,"SL":3}, "face": "NL"},
+        "baixo_esquerda": {"direcao": (-1, 1), "peso": {"N":4,"O":2,"S":2,"L":4,"NL":5,"NO":3,"SO":1,"SL":3}, "face": "SO"},
+        "baixo_direita": {"direcao": (1, 1), "peso": {"N":4,"O":4,"S":2,"L":2,"NL":3,"NO":5,"SO":3,"SL":1}, "face": "SL"}
     }
 
-    #dlecarando variaveis
+    #declarando variaveis
+    face_robo = "L"
     x_obj, y_obj = pos_objetivo
     pos_atual = pos_inicial
     x_atual, y_atual = pos_atual
     valor_do = abs(x_obj-x_atual)+abs(y_obj-y_atual)
     p_valor_da = 0
     valor_dt = p_valor_da + valor_do
-    p_pos = [pos_atual]
+    lista_pos_andadas = [pos_atual]
     lista_aberta = []
     lista_pos_add=set()
     qtd=0
@@ -101,32 +102,35 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
     while valor_do > 0:
         qtd += 1
         print(f"\n---------------------------------------------------------------------------------")
-        print(f"Todas posições adicionadas na lista aberta: \n{lista_pos_add}")
-        print(f"Todas posição andadas: {p_pos}")
         print(f"Posição atual: {pos_atual}")
+        print(f"A face do robo é: {face_robo}")
         print(f"Valor andado: {p_valor_da}")
         print(f"---------------------------------------------------------------------------------\n")
         x_atual, y_atual = pos_atual
 
+        #declarar as possibilidades de movimento
         for nome, info in movimentos.items():
             dx, dy = info["direcao"]
-            peso = info["peso"]
+            peso = info["peso"][face_robo] * 3 if tem_bola else info["peso"][face_robo]
+            nova_face_robo = info["face"]
             novo_x, novo_y = x_atual + dx, y_atual + dy
             pos_nova=(novo_x,novo_y)
 
             #verifica se está fora dos limites
-            if 0 > novo_x >= largura_grid and 0 > novo_y >= altura_grid:
-                print(f"Essa posição está fora dos limites ({pos_nova})\n")
+            if 0 > novo_x or novo_x >= largura_grid or 0 > novo_y or novo_y >= altura_grid:
+                print("\n---------------------------------------------------------------------------------")
+                print(f"Essa posição está fora dos limites ({pos_nova})")
                 continue
 
             #verifica se tal tupla já passou pela lista aberta
             if pos_nova in lista_pos_add:
-                print(f"Essa posição já esta na lista aberta ({pos_nova})\n")
+                print(f"Essa posição já esta na lista aberta ({pos_nova})")
                 continue
 
             #verifica se tal tupla é um obstaculo
             if pos_nova in obstaculos:
-                print(f"Essa posição é um obstaculo ({pos_nova})\n")
+                print(f"Essa posição é um obstaculo ({pos_nova})")
+                print("---------------------------------------------------------------------------------\n")
                 continue
                 
             print(f"Movimento: {nome} / Direção: ({dx}, {dy}) / Peso: {peso}")
@@ -139,23 +143,23 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
             print(f"Valor da Distancia Total: {valor_dt}")
 
             #armazenamento da lista aberta
-            f_pos = p_pos + [pos_nova]
-            novo_item=(valor_dt, valor_da, valor_do, pos_nova, f_pos)
+            listas_pos_finais = lista_pos_andadas + [pos_nova]
+            novo_item=(valor_dt, valor_da, valor_do, pos_nova, nova_face_robo, listas_pos_finais)
             print(f"Novo item: {novo_item}\n")
             heapq.heappush(lista_aberta, novo_item) 
             lista_pos_add.add(pos_nova)
 
         #verifica se ainda há posições para serem analisadas
         if lista_aberta:
-            valor_dt, p_valor_da, valor_do, pos_atual, p_pos = heapq.heappop(lista_aberta)
+            valor_dt, p_valor_da, valor_do, pos_atual, face_robo, lista_pos_andadas = heapq.heappop(lista_aberta)
         else: 
             print("Não foi possivel encontrar um caminho")
             break
     
     print(f"\n--------------------------Resultado final-------------------------------")
-    print(f"Todas posição andadas: {p_pos}")
+    print(f"Todas posição andadas: {lista_pos_andadas}")
     print(f"Posição atual: {pos_atual}")
     print(f"Valor andado: {p_valor_da}")
     print(f"Quantidade de analises: {qtd}")
 
-    return p_pos
+    return lista_pos_andadas
