@@ -66,4 +66,3 @@ Leia atentamente a documentação dentro da função `encontrar_caminho` para ma
 Boa sorte! Estamos ansiosos para ver sua solução.
 
 **Equipe EDROM**
-abrobrinha com chuchu

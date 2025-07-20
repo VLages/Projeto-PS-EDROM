@@ -66,7 +66,7 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
     # Sua tarefa é substituir esta lógica simples pelo seu algoritmo A* completo.
 
     print(f"pos_inicial: {pos_inicial}\n")
-    print(f"pos_objetivo: {pos_objetivo}\n")
+    print(f"pos_objetivo: {pos_objetivo}\n") 
     print(f"obstaculos: {obstaculos}\n")
     print(f"largura_grid: {largura_grid}\n")
     print(f"altura_grid: {altura_grid}\n")

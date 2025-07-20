@@ -153,7 +153,7 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
                 peso += zona_de_risco[pos_nova]
                 
             print(f"Movimento: {nome} / Direção: ({dx}, {dy}) / Peso: {peso}")
-            print(f"Nova posição: {pos_nova}")
+            print(f"Nova posição: {pos_nova}") 
 
             #calculando valor de cada movimento
             valor_do = abs(x_obj-novo_x) + abs(y_obj-novo_y)
