@@ -183,7 +183,7 @@ def main():
         pos_icone_y = ALTURA_TELA - ALTURA_PAINEL / 2 - icone_painel.get_height() / 2
         tela.blit(icone_painel, (pos_icone_x, pos_icone_y))
 
-        pygame.display.flip()
+        pygame.display.flip() 
         clock.tick(5)
 
 if __name__ == '__main__':
