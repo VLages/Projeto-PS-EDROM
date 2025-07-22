@@ -138,9 +138,9 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
 
             #armazenamento da lista aberta
             listas_pos_finais = lista_pos_andadas + [pos_nova]
-            novo_item=(valor_dt, valor_da, valor_do, pos_nova, listas_pos_finais)
-            print(f"Novo item: {novo_item}\n")
-            heapq.heappush(lista_aberta, novo_item) 
+            inf_pos_nova=(valor_dt, valor_da, valor_do, pos_nova, listas_pos_finais)
+            print(f"Novo item: {inf_pos_nova}\n")
+            heapq.heappush(lista_aberta, inf_pos_nova) 
             lista_pos_add.add(pos_nova)
 
         #verifica se ainda há posições para serem analisadas
