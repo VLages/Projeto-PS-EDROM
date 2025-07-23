@@ -173,7 +173,7 @@ def encontrar_caminho(pos_inicial, pos_objetivo, obstaculos, largura_grid, altur
             valor_dt, p_valor_da, valor_do, pos_atual, face_robo, lista_pos_andadas = heapq.heappop(lista_aberta)
         else: 
             print("Não foi possivel encontrar um caminho")
-            break
+            return []
     
     print(f"\n--------------------------Resultado final-------------------------------")
     print(f"Todas posição andadas: {lista_pos_andadas}")
