@@ -269,3 +269,30 @@ Quando o loop `while` termina (porque `valor_do` se tornou 0, ou seja, `pos_atua
       - `p_valor_da`: O custo total (`g(n)`) do caminho encontrado.
       - `qtd`: O número de nós que foram expandidos, uma medida da eficiência da busca.
   - `return lista_pos_andadas`: A função retorna o caminho encontrado como uma lista de tuplas.
+
+## Seção 6: Metodologia de Teste e o Simulador Comparativo
+
+Para validar e comparar a eficácia de cada evolução do algoritmo, foi adotada uma metodologia de teste específica, que justifica a manutenção de arquivos separados para cada fase do projeto.
+
+### Manutenção de Arquivos por Fase (básica, 1, 2, 3)
+
+O projeto foi intencionalmente dividido em múltiplos arquivos, correspondendo a diferentes "fases" de desenvolvimento (ex: `fase_basica`, `fase_1`, `fase_2`, etc.). Cada fase representa uma versão do algoritmo com uma nova camada de complexidade ou uma modificação na lógica de cálculo de custos:
+
+* A **fase básica** pode conter uma implementação simples do A*.
+* A **fase 1** pode introduzir os custos de rotação (`peso` baseado na `face_robo`).
+* A **fase 2** pode adicionar as `zonas_de_risco` ao redor de obstáculos.
+* A **fase 3** pode incluir a penalidade por carregar um objeto (`tem_bola`).
+
+Manter os arquivos separados foi uma decisão deliberada de design para permitir que cada versão do algoritmo pudesse ser executada de forma independente e, mais importante, **simultaneamente** para uma análise comparativa direta, em vez de ter que comentar ou descomentar blocos de código em um único arquivo.
+
+### O Simulador Secundário
+
+Para realizar essa análise comparativa, foi desenvolvido um **simulador secundário**. Este é um programa separado, provavelmente com uma interface gráfica (usando uma biblioteca como Pygame, Tkinter ou similar), cujo principal objetivo é executar todas as fases do algoritmo ao mesmo tempo, em um cenário idêntico, e exibir os resultados de forma visual e unificada.
+
+#### Funcionamento do Simulador
+
+1.  **Ambiente Unificado**: O simulador define um único grid, com a mesma posição inicial, objetivo e conjunto de obstáculos para todos os algorithos que serão testados.
+2.  **Visualização Gráfica**: O simulador apresenta quatro grids na tela e, após receber o caminho retornado por cada função, renderiza esses trajetos sobre cada respectivo grid, a fim de faciliar a vizualização de cada código.
+3.  **Análise de Métricas**: Além da visualização do trajeto, o simulador coleta e exibe em tempo real as métricas chave de cada fase, como o custo final do caminho (`p_valor_da`), a quantidade de nós analisados (`qtd`) e, potencialmente, o tempo de execução.
+
+Essa abordagem oferece uma comparação imediata e intuitiva, tornando fácil observar visualmente como a adição de zonas de risco ou a penalidade por carregar a bola afeta a rota escolhida pelo robô, sua eficiência e o custo total do percurso.
